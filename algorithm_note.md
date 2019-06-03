@@ -114,6 +114,31 @@ public:
     }
 };
 ```
+## Leetcode 942. DI String Match
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<int> diStringMatch(string S) {
+        
+        int top = S.length();
+        int lower = 0;
+        vector<int> result;
+        for (char& c : S) {
+            if (c == 'D') {
+                result.push_back(top--);
+            } else {
+                result.push_back(lower++);
+            }
+        }
+        result.push_back(lower);
+        return result;
+    }
+};
+```
+
+
 ## Leetcode XXX
 ### res:
 - 111
