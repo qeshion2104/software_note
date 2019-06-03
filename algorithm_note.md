@@ -137,6 +137,35 @@ public:
     }
 };
 ```
+## Leetcode 852. Peak Index in a Mountain Array
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {
+        // 2分搜索法
+        int left_bound = 0;
+        int right_bound = A.size();
+        int index;
+        while (true) {
+            index = (left_bound + right_bound) / 2;
+            if (index < A.size() - 1 && A[index] < A[index + 1]) {
+                // go right
+                left_bound = index;
+            } else if (index > 0 && A[index] < A[index - 1]) {
+                // go left
+                right_bound = index;
+            } else {
+                break;
+            }
+        }
+        return index;
+    }
+};
+```
+
+
 
 
 ## Leetcode XXX
