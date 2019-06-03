@@ -82,3 +82,42 @@ public:
     }
 };  
 ```
+
+## Leetcode 728. Self Dividing Numbers
+
+### res:
+- [convert char to int](https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c) 
+- [convert int to string](https://stackoverflow.com/questions/5590381/easiest-way-to-convert-int-to-string-in-c)
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        // use while get digit from % 10 every loop v /= 10; can get result more quickly
+        vector<int> result = {};
+        string str;
+        bool is_divisible;
+        for (int i = left; i <= right; i++) {
+            str = to_string(i);
+            is_divisible = true;
+            for (char& c : str) {
+                if (c == '0' || i % (c - '0') != 0) {
+                    is_divisible = false;
+                    break;
+                }
+            }
+            if (is_divisible) {
+                result.push_back(i);
+            }
+        }
+        return result;
+    }
+};
+```
+## Leetcode XXX
+### res:
+- 111
+### mysolution:
+```C++
+...
+```
