@@ -184,7 +184,36 @@ class RecentCounter {
         }
 };
 ```
-
+## Leetcode 944. Delete Columns to Make Sorted
+### res:
+- [convert int to c](https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c)
+- [initialize vector with 0](https://stackoverflow.com/questions/13110130/initialize-a-vector-to-zeros-c-c11)
+- [int to string](https://blog.csdn.net/xiaoquantouer/article/details/51746476)
+### mysolution:
+```C++
+class Solution {
+public:
+    int minDeletionSize(vector<string>& A) {
+        vector<int> max(A[0].size(), 0);
+        int D = 0;
+        for (int i = 0; i < A.size(); i++){
+            for (int j = 0; j < A[i].size(); j++) {
+                if (max[j] == -1) {
+                    continue;
+                }
+                
+                if (A[i][j] >= max[j]) {
+                    max[j] = int(A[i][j]);
+                } else {
+                    max[j] = -1;
+                    D++;
+                }
+            }
+        }
+        return D;
+    }
+};
+```
 
 
 ## Leetcode XXX
