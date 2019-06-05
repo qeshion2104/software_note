@@ -165,6 +165,25 @@ public:
 };
 ```
 
+## Leetcode 933. Number of Recent Calls
+### res:
+- [C++ 容器介紹 queue](http://larry850806.github.io/2016/06/06/STL1/#queue)
+### mysolution:
+```C++
+class RecentCounter {
+    private:
+        queue<int> q;
+    public:
+        RecentCounter() {}
+        int ping(int t) {
+            q.push(t);
+            while (q.front() < (t - 3000)) {
+                q.pop();
+            }
+            return q.size();
+        }
+};
+```
 
 
 
