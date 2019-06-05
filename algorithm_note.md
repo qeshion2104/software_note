@@ -214,7 +214,27 @@ public:
     }
 };
 ```
-
+## Leetcode 561. Array Partition I
+### res:
+- [sort](http://www.cplusplus.com/reference/algorithm/sort/)
+### mysolution:
+```C++
+class Solution {
+public:
+    int arrayPairSum(vector<int>& nums) {
+        // 2n to n pair
+        // r1
+        // after sorted
+        // a[i] + a[i+2], ....
+        sort(nums.begin(), nums.end());
+        int r = 0;
+        for (int i = 0; i < nums.size(); i = i+2) {
+            r+=nums[i];
+        }
+        return r;
+    }
+};
+```
 
 ## Leetcode XXX
 ### res:
