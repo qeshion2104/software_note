@@ -235,6 +235,50 @@ public:
     }
 };
 ```
+## Leetcode 589. N-ary Tree Preorder Traversal
+### res:
+- [c++ vector concat](https://stackoverflow.com/questions/201718/concatenating-two-stdvectors)
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<int> preorder(Node* root) {
+        vector<int> v;
+        if (!!root) {
+            // V
+            v.push_back(root->val);
+            // LR
+            for (Node* child : root->children) {
+                vector<int> temp = preorder(child);
+                if (temp.size() > 0) {
+                    v.insert(v.end(), make_move_iterator(temp.begin()), make_move_iterator(temp.end()));
+                }
+            }
+        }
+        return v;
+    }
+};
+```
+
+
+## Leetcode 965. Univalued Binary Tree
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    bool isUnivalTree(TreeNode* root) {
+        return isUniPreOrder(root, root->val);
+    }
+    bool isUniPreOrder(TreeNode* root, int val) {
+        if (!root) {
+            return true;
+        } else {
+            return root->val == val && isUniPreOrder(root->left, val) && isUniPreOrder(root->right, val);
+        }
+    }
+};
+```
 
 ## Leetcode XXX
 ### res:
