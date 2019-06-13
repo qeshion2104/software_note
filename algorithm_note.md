@@ -314,6 +314,36 @@ public:
 };
 ```
 
+## Leetcode 559. Maximum Depth of N-ary Tree
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        return helper(root, 1);
+    }
+    
+    int helper(Node* root, int i) {
+        if (!root) {
+            return 0;
+        }
+        if (root->children.size() == 0) {
+            return i;
+        } else {
+            int max=0;
+            for (Node* child : root->children) {
+                int j = helper(child, i+1);
+                if (j > max) {
+                    max = j;
+                }
+            }
+            return max;
+        }
+    }    
+};
+```
+
 
 ## Leetcode XXX
 ### res:
