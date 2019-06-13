@@ -279,6 +279,41 @@ public:
     }
 };
 ```
+## Leetcode 883. Projection Area of 3D Shapes
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    int projectionArea(vector<vector<int>>& grid) {
+        int xy = 0;
+        int xz = 0;
+        int yz = 0;
+        int xz_max = 0;
+        int yz_max = 0;
+        // N X N
+        for (int i = 0; i < grid.size(); i++) {
+            int xz_max = 0;
+            int yz_max = 0;
+            for (int j = 0; j < grid[i].size(); j++) {
+                if (grid[i][j] > 0) {
+                    xy++;
+                }
+                if (grid[i][j] > xz_max) {
+                    xz_max = grid[i][j];
+                }
+                if (grid[j][i] > yz_max) {
+                    yz_max = grid[j][i];
+                }
+            }
+            xz += xz_max;
+            yz += yz_max;
+        }
+        return xy+xz+yz;
+    }
+};
+```
+
 
 ## Leetcode XXX
 ### res:
