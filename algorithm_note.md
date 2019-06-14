@@ -343,7 +343,140 @@ public:
     }    
 };
 ```
+## Leetcode 908. Smallest Range I
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    int smallestRangeI(vector<int>& A, int K) {
+        // this is a problem about find min and max
+        int min=10000;
+        int max=0;
+        for (int i: A) {
+            if (i > max) max=i;
+            if (i < min) min=i;
+        }
+        return max - min > 2 * K ? max - min - 2 * K : 0;
+    }
+};
+```
 
+## Leetcode 1030. Matrix Cells in Distance Order
+### res:
+### mysolution:
+```C++
+// 參考別人code 後 得出的答案 當然 並不是最快的
+        // 由中心向外擴展的算法 就只需要 O(MN) 次 搭配visted 陣列 可以寫出更clean的code
+    vector<vector<int>> allCellsDistOrder(int R, int C, int r0, int c0) {
+        vector<vector<int>> matrix;
+        for (int i=0; i<R; i++) {
+            for (int j=0; j<C; j++) {
+                matrix.push_back({i, j});
+            }
+        }
+        // from smallest distance to largest distance
+        // refer variable outside function
+        auto comp = [&r0, &c0](const vector<int>& v1, const vector<int>& v2) {
+            return abs(v1[0] - r0) + abs(v1[1] - c0) < abs(v2[0] - r0) + abs(v2[1] - c0);
+        };
+        sort( matrix.begin( ), matrix.end( ), comp);
+        
+        return matrix;
+    }
+```
+
+## Leetcode 811. Subdomain Visit Count
+### res:
+- [Easiest way to convert int to string in C++](   https://stackoverflow.com/questions/5590381/easiest-way-to-convert-int-to-string-in-cParse)
+- [(split) a string in C++ using string delimiter (standard C++):](https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c)
+- [How to convert string to int and int to string in C++:](https://www.systutorials.com/131/convert-string-to-int-and-reverse/)
+- [Find xth character in string:](http://www.cplusplus.com/forum/beginner/145368/)
+- [How to lterate over a map in c++: ](https://thispointer.com/how-to-iterate-over-a-map-in-c/)
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+        map<string, int> myMap;
+        vector<string> res;
+        size_t pos = 0;
+        for (string & str : cpdomains) {
+            // spilt number and domain by space
+            pos = str.find(" ");
+            int number = stoi(str.substr(0, pos));
+            str.erase(0, pos + 1);
+            
+            // separate domain with .        
+            pos = 0;
+            do {
+                if (pos != 0) {
+                    str.erase(0, pos + 1);
+                }
+                // insert or update domain in Map
+                myMap[str] = myMap[str] ? myMap[str] + number : number;     
+            }
+            while ( (pos = str.find(".")) != string::npos );
+        }
+        // convert myMap to vector [key, value]
+        for ( const auto &myPair : myMap ) {
+            res.push_back(to_string(myPair.second) + " " + myPair.first);
+        }
+        
+        return res;
+    }
+};
+```
+
+## Leetcode 700   Search in a Binary Search Tree
+### res:
+- [queue:](https://blog.csdn.net/u012539514/article/details/17751123)
+### mysolution:
+```C++
+/**
+* Definition for a binary tree node.
+* struct TreeNode {
+*     int val;
+*     TreeNode *left;
+*     TreeNode *right;
+*     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+* };
+*/
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+//         // use BFS
+//         queue<TreeNode *> q;
+//         q.push(root);
+//         TreeNode * cur = nullptr;
+//         while (!q.empty()) {
+//             cur = q.front();
+//             q.pop();
+//             if (cur != nullptr) {
+//                 if (cur->val == val) {
+//                     break;
+//                 } else {
+//                     q.push(cur->left);
+//                     q.push(cur->right);
+//                 }
+//             } else {
+//                 // do nothing
+//             }
+//         }
+//         if (cur == nullptr) {
+//             return NULL;
+//         } else {
+//             return cur;
+//         }
+        
+        // more powerful way to use feture about BST
+        if (!root) return NULL;
+        if (root->val == val) return root;
+        else if (root->val > val) return searchBST(root->left, val);
+        else return searchBST(root->right, val);
+    }
+};
+```
 
 ## Leetcode XXX
 ### res:
