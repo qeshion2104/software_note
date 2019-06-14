@@ -478,6 +478,33 @@ public:
 };
 ```
 
+## Leetcode 1046. Last Stone Weight
+### res:
+- [priority_queue](http://nckunoname.pixnet.net/blog/post/79316741-stl%E7%9A%84priority_queue%E7%9A%84%E7%94%A8%E6%B3%95)
+### mysolution:
+```C++
+class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        priority_queue<int> q;
+        for (auto i: stones) {
+            q.push(i);
+        }
+        while(q.size() >= 2) {
+            int first = q.top();
+            q.pop();
+            int second = q.top();
+            q.pop();
+            if (first != second) {
+                q.push(first-second);
+            }
+        }
+        return !q.empty() ? q.top() : 0;
+    }
+};
+```
+
+
 ## Leetcode XXX
 ### res:
 - 111
