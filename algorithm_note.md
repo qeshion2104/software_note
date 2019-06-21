@@ -503,7 +503,250 @@ public:
     }
 };
 ```
+## Leetcode 669. Trim a Binary Search Tree
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int L, int R) {
+            
+        if (root == NULL) {
+            return NULL;
+        }
+        
+        if (check(root->val, L, R)) {
+            // pass
+            // go right
+            root->left = trimBST(root->left, L, R);
+            // go left
+            root->right = trimBST(root->right, L, R);
+            return root;
+        } else {
+            // not pass
+            // if < L return R
+            if (root->val < L) {
+                return trimBST(root->right, L, R);
+            }
+            // else > R return left return L
+            else return trimBST(root->left, L, R);
+        }
+    }
+    
+    bool check(int val, int L, int R) {
+        return val >= L && val <= R;
+    }
+};
 
+
+=== can be simplyfy to ===
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int L, int R) {
+            
+        if (root == NULL) return NULL;
+        
+        if (root->val < L) return trimBST(root->right, L, R);
+        if (root->val > R ) return trimBST(root->left, L, R);
+        
+        root->left = trimBST(root->left, L, R);
+        root->right = trimBST(root->right, L, R);
+        return root;
+    }
+};
+```
+
+
+## Leetcode 136. Single Number
+### res:
+- [c++ unorder_set](https://www.sczyh30.com/posts/C-C/cpp-stl-hashmap/)
+- [c++ unorder_set](http://www.cplusplus.com/reference/unordered_map/unordered_map/begin/)
+- [c++ vector to set](https://www.techiedelight.com/convert-vector-set-cpp/)
+- [c++ 位元運算](http://www.86duino.com/?p=1411&lang=TW)
+### mysolution:
+```C++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        // Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+        // must be O(N) and space with O(1)
+        // hmm....
+        // so we can not sort then scan ...
+        
+        
+        // r1  for loop O(N) find= O(1) t = O(N)
+        //     space for unorder_map = O(N)
+        // unordered_map<int, int> umap;
+        // for (int i: nums) {
+        //     if (umap.find(i) == umap.end()) umap[i]=i;
+        //     else umap.erase(i);
+        // }
+        // auto it = umap.begin();
+        // return it->first;
+        
+        // r2 purely math solution ( a + b + c ) * 2 - ( a + b + c + a + b) = c
+        // for loop O(N) and sum O(N) = O(2N)
+        // space O(N) set
+        // unordered_set<int> uset;
+        // int sum=0;
+        // for (int i: nums) {
+        //     sum+=i;
+        //     uset.insert(i);
+        // }
+        // int s_sum = 0;
+        // for (const int& i: uset) {
+        //     s_sum += i;
+        // }
+        // return s_sum * 2 - sum;
+        
+        // awsome r3 use Bit Manipulation
+        // XOR  a XOR 0 = a
+        //      a XOR a = 0
+        //      a XOR b XOR a = (a XOR a) XOR b = 0 XOR b = b
+        // so we can loop and XOR all bits together to find answer
+        // TIME = O(N) and SPACE= O(1)
+        
+        int sum = 0;
+        for (int i: nums) {
+            sum ^= i;
+        }
+        return sum;
+    }
+};
+```
+
+
+## Leetcode 575. Distribute Candies
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    int distributeCandies(vector<int>& candies) {
+        // candies.size() % 2 = 0;
+        // devide in to two side
+        // and must be max kind sister could get
+        // so the logic is here
+        // divide into to group A, B
+        // A has much distinct Type as possible, and the other for B
+        // the max type is equal to candies.size() / 2 < sumType ? candies.size() / 2 : sumType;
+        int sumType = 0;
+        unordered_set<int> u_set;
+        for (int i: candies) {
+            if (u_set.find(i) == u_set.end()) {
+                u_set.insert(i);
+                sumType++;
+            }
+        }
+        int size_2 = candies.size() / 2;
+        return min(size_2, sumType);
+    }
+};
+```
+
+
+## Leetcode 496. Next Greater Element I
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        // r1 brute force
+        // time O(n^2) space O(1)
+        for (int i=0; i < nums1.size(); i++) {
+            bool findIndex = false;
+            bool isSet = false;
+            for (int j=0; j < nums2.size(); j++) {
+                if (findIndex && nums2[j] > nums1[i]) {
+                    nums1[i] = nums2[j];
+                    isSet = true;
+                    break;
+                } else if (nums1[i] == nums2[j]) {
+                    findIndex = true;
+                }
+            }
+            if (!isSet) {
+                nums1[i] = -1;
+            }
+        }
+        return nums1;
+        
+        // r2 store index first for O(n) and loop for O(1/2n^2)
+        //      space = O(n)
+        unordered_map<int, int> index_map;
+        for (int i=0; i < nums2.size(); i++) {
+            index_map[nums2[i]] = i;
+        }
+        
+        for (int& j: nums1) {
+            int index = index_map[j];
+            bool isSet = false;
+            for (int k=index; k < nums2.size(); k++) {
+                if (j < nums2[k]) {
+                    j = nums2[k];
+                    isSet = true;
+                    break;
+                }
+            }
+            if (!isSet) {
+                j = -1;
+            }
+        }
+        return nums1;
+        
+        // r3 use stack and map caluate great first
+        
+        unordered_map<int, int> res;
+        stack<int> st;
+        for (int i:  nums2) {
+            int cur = i;
+            // scan until empty or !> top, leave only numbe smaller than cur
+            while(!st.empty() && cur > st.top()) {
+                res[st.top()] = cur;
+                st.pop();
+            }
+            st.push(cur);
+        }
+        // get answer if count not exist mean no great next
+        for (int &i : nums1) {
+            i = res.count(i) ? res[i] : -1;
+        }
+        return nums1;
+    }
+};
+```
+## Leetcode 412 Fizz Buzz
+### res:
+### mysolution:
+```C++
+class Solution {
+public:
+    vector<string> fizzBuzz(int n) {
+        vector<string> vs;
+        for (int i = 1; i <= n; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                vs.push_back("FizzBuzz");
+            } else if (i % 3 ==0) {
+                vs.push_back("Fizz");
+            } else if (i % 5 ==0) {
+                vs.push_back("Buzz");
+            } else {
+                vs.push_back(int2str(i));
+            } 
+        }
+        return vs;
+    }
+    string int2str(int &i) {
+      string s;
+      stringstream ss(s);
+      ss << i;
+
+      return ss.str();
+    }
+
+};
+```
 
 ## Leetcode XXX
 ### res:
